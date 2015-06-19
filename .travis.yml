@@ -19,3 +19,8 @@ env:
   matrix:
     - HANDLER="nokogiri"
     - HANDLER="ox"
+
+matrix:
+  exclude:
+    - env: HANDLER="ox"
+      rvm: jruby-19mode
