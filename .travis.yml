@@ -11,6 +11,7 @@ rvm:
   - 2.1
   - 2.2
   - jruby-19mode
+  - jruby-1.7
   - rbx-2
 
 env:
@@ -22,3 +23,5 @@ matrix:
   exclude:
     - env: HANDLER="ox"
       rvm: jruby-19mode
+    - env: HANDLER="ox"
+      rvm: jruby-1.7
