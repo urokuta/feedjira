@@ -9,7 +9,13 @@ module Feedjira
 
     def parse_datetime(string)
       begin
-        DateTime.parse(string).feed_utils_to_gm_time
+        dt = DateTime.parse(string)
+        result = nil
+        if dt.zone == "+09:00"
+          dt.feed_utils_to_local_time
+        else
+          dt.feed_utils_to_force_local_time
+        end
       rescue
         warn "Failed to parse date #{string.inspect}"
         nil

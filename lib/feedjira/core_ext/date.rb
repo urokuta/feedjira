@@ -11,6 +11,10 @@ class Date
     feed_utils_to_time(new_offset(DateTime.now.offset-offset), :local)
   end
 
+  def feed_utils_to_force_local_time
+    feed_utils_to_time(new_offset, :local)
+  end
+
   private
   def feed_utils_to_time(dest, method)
     Time.send(method, dest.year, dest.month, dest.day, dest.hour, dest.min,
