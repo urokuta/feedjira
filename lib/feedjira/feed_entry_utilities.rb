@@ -7,15 +7,13 @@ module Feedjira
       @published ||= @updated
     end
 
+    def published_raw
+      @published_raw ||= @updated_raw
+    end
+
     def parse_datetime(string)
       begin
-        dt = DateTime.parse(string)
-        result = nil
-        if dt.zone == "+09:00" || string.include?("+0000") || string.include?("GMT") || string.include?("UTC")
-          result = dt.feed_utils_to_gm_time
-        else
-          result = dt.feed_utils_to_force_local_time
-        end
+        DateTime.parse(string).feed_utils_to_gm_time
       rescue
         warn "Failed to parse date #{string.inspect}"
         nil
@@ -31,6 +29,7 @@ module Feedjira
     ##
     # Writer for published. By default, we keep the "oldest" publish time found.
     def published=(val)
+      @published_raw = val
       parsed = parse_datetime(val)
       @published = parsed if !@published || parsed < @published
     end
@@ -38,6 +37,7 @@ module Feedjira
     ##
     # Writer for updated. By default, we keep the most recent update time found.
     def updated=(val)
+      @updated_raw = val
       parsed = parse_datetime(val)
       @updated = parsed if !@updated || parsed > @updated
     end
