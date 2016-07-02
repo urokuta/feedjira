@@ -11,10 +11,10 @@ module Feedjira
       begin
         dt = DateTime.parse(string)
         result = nil
-        if dt.zone == "+09:00"
-          dt.feed_utils_to_local_time
+        if dt.zone == "+09:00" || string.include?("+0000") || string.include?("GMT") || string.include?("UTC")
+          result = dt.feed_utils_to_gm_time
         else
-          dt.feed_utils_to_force_local_time
+          result = dt.feed_utils_to_force_local_time
         end
       rescue
         warn "Failed to parse date #{string.inspect}"
